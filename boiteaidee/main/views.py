@@ -5,5 +5,5 @@ from django.http import HttpResponse
 def hello(request):
 
     return HttpResponse(f"""
-        <h1>Hello Django !</h1>
+        <h1>Hello Django from container!</h1>
 """)
