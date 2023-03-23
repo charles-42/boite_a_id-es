@@ -40,3 +40,19 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'main/signup.html', {'form': form})
+
+
+from django.contrib.auth.forms import  AuthenticationForm
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'main/signup.html', {'form': form})
