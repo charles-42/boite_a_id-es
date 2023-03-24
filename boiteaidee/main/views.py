@@ -44,15 +44,27 @@ def signup(request):
 
 from django.contrib.auth.forms import  AuthenticationForm
 
-def login(request):
+def login_user(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
+        form = AuthenticationForm(request,request.POST)
+   
+        print(form.error_messages)
+
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+
+
+        # user = form.get_user()
+        # if user is not None:
+        #     login(request, user)
+        #     return redirect('home')
 
     else:
         form = AuthenticationForm()
 
-    return render(request, 'main/signup.html', {'form': form})
+    return render(request, 'main/login.html', {'form': form})
